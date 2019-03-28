@@ -26,7 +26,7 @@ func TestVerify(t *testing.T) {
 
 func TestBuildParams(t *testing.T) {
 	time := time.Now().UnixNano() / 1e6
-	var pairs Pairss
+	var pairs Pairs
 	pairs = append(pairs, KvPair{
 		Key:   "time",
 		Value: fmt.Sprintf("%d", time),
