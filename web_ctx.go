@@ -19,6 +19,7 @@ const (
 
 var signHeader = false
 
+// SignHeader whether to sign http request header or not
 func SignHeader(s bool) {
 	var lock sync.Mutex
 	lock.Lock()
@@ -26,7 +27,7 @@ func SignHeader(s bool) {
 	lock.Unlock()
 }
 
-// to check if the request is valid  from the signing key
+// CheckValid to check if the request is valid  from the signing key
 func CheckValid(req *http.Request, keeper SecretKeeper) (bool, error) {
 	if req == nil {
 		return false, errors.New("illegal request")

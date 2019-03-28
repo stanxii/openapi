@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// sign with sha 256
+// Sign with sha 256
 func Sign(content, key string) string {
 	h := sha256.New()
 	h.Write([]byte(content + key))
@@ -19,11 +19,13 @@ func verify(result, content, key string) bool {
 	return strings.EqualFold(signed, result)
 }
 
+// KvPair is a simple struct for kv pair
 type KvPair struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
+// Pairs is the slice of the KvPair
 type Pairs []KvPair
 
 func (p Pairs) Swap(i, j int) {
