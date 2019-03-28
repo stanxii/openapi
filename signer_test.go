@@ -21,7 +21,7 @@ func TestSign(t *testing.T) {
 }
 
 func TestVerify(t *testing.T) {
-	r := Verify(signResult, signData, signKey)
+	r := verify(signResult, signData, signKey)
 	assert.Equal(t, r, true)
 }
 
@@ -36,7 +36,7 @@ func TestBuildParams(t *testing.T) {
 		Key:   "app_key",
 		Value: "iepheechahNg9voh",
 	})
-	content := BuildParams(pairs)
+	content := buildParams(pairs)
 	url := "?time=" + fmt.Sprintf("%d", time) + "&app_key=iepheechahNg9voh&sign=" + Sign(content, signKey)
 	fmt.Println(url)
 }

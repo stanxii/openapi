@@ -14,7 +14,7 @@ func Sign(content, key string) string {
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
-func Verify(result, content, key string) bool {
+func verify(result, content, key string) bool {
 	signed := Sign(content, key)
 	return strings.EqualFold(signed, result)
 }
@@ -38,7 +38,7 @@ func (p Pairs) Less(i, j int) bool {
 }
 
 // 防止存放攻击, 客户端需要显式的传过来时间戳
-func BuildParams(params Pairs) string {
+func buildParams(params Pairs) string {
 	sort.Sort(params)
 	var result string
 	for _, v := range params {

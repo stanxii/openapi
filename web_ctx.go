@@ -6,10 +6,20 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
 const defaultExpireTime = 60000
+
+var signHeader = false
+
+func SignHeader(s bool) {
+	var lock sync.Mutex
+	lock.Lock()
+	signHeader = s
+	lock.Unlock()
+}
 
 // to check if the request is valid  from the signing key
 func CheckValid(req *http.Request, keeper SecretKeeper) (bool, error) {
@@ -31,12 +41,12 @@ func CheckValid(req *http.Request, keeper SecretKeeper) (bool, error) {
 	}
 
 	pairs := getPairs(req)
-	content := BuildParams(pairs)
+	content := buildParams(pairs)
 	secret, err := keeper.GetSecret()
 	if err != nil {
 		return false, err
 	}
-	result := Verify(signResult, content, secret)
+	result := verify(signResult, content, secret)
 	if result {
 		return result, nil
 	}
@@ -52,12 +62,15 @@ func getParamFromRequest(req *http.Request, param string) string {
 
 func getPairs(req *http.Request) Pairs {
 	pairs := make([]KvPair, 0, 10)
-	headers := req.Header
-	headerPairs := getPairsFromMap(headers)
+	if signHeader {
+		// add all headers
+		headers := req.Header
+		headerPairs := getPairsFromMap(headers)
+		pairs = append(pairs, headerPairs...)
+	}
 	// add all params
 	paramsMap := req.URL.Query()
 	paramPairs := getPairsFromMap(paramsMap)
-	pairs = append(pairs, headerPairs...)
 	pairs = append(pairs, paramPairs...)
 	return pairs
 }
