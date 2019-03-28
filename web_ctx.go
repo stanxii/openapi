@@ -10,7 +10,12 @@ import (
 	"time"
 )
 
-const defaultExpireTime = 60000
+const (
+	defaultExpireTime = 60000
+
+	signParam = "sign"
+	timeParam = "time"
+)
 
 var signHeader = false
 
@@ -27,8 +32,8 @@ func CheckValid(req *http.Request, keeper SecretKeeper) (bool, error) {
 		return false, errors.New("illegal request")
 	}
 	// time in millis
-	timeStr := getParamFromRequest(req, "time")
-	signResult := getParamFromRequest(req, "sign")
+	timeStr := getParamFromRequest(req, timeParam)
+	signResult := getParamFromRequest(req, signParam)
 
 	rt, err := strconv.ParseInt(timeStr, 10, 64)
 	if err != nil {
@@ -86,7 +91,7 @@ func getPairsFromMap(m map[string][]string) Pairs {
 		for _, e := range v {
 			val += e
 		}
-		if strings.EqualFold(k, "sign") {
+		if strings.EqualFold(k, signParam) {
 			continue
 		}
 		p := KvPair{

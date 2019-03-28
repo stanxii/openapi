@@ -1,10 +1,37 @@
-# open api
+# a tool to provide third-party apis
 
 a common tool for providing api to third-party users
 
-
+theoretically the tool is compatible with all kinds of web framework
+and `iris` and `gin` is the recommend web framework.
 
 ## for server
+### before you use
+if you use the default sql implementation, you should create a table first
+of course, you can define your own table as long as you point out the right
+way to get your actual  secret
+```sql
+CREATE TABLE `app` (
+  `app_key` varchar(32) NOT NULL,
+  `app_secret` varchar(128) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`app_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+another way for you to get the secret is you can implement the
+interface here
+
+```go
+// the interface to get the secret
+type SecretKeeper interface {
+	GetSecret() (string, error)
+}
+```
+
+
+### using it in your web framework
 create a middle ware for some web framework
 ```go 
 // create a middle ware for iris
@@ -27,8 +54,10 @@ func OpenApiHandler(ctx iris.Context) {
 	})
 	logError(err)
 	if r {
+	    // verfy success, continue the request
 		ctx.Next()
 	} else {
+	    // verify fail, stop the request and return
 		ctx.Text(err.Error())
 		ctx.StopExecution()
 		return
@@ -52,8 +81,8 @@ use it on some kind of api groups
 ```
 
 ## for client
-1. get current time in millis and append it to the existing parameters
-2. add a header or url params for the client to send the app key to the server
+1. get current time in millis and append it to the existing parameters `?time=1553759639794`
+2. add a header or url params for the client to send the app key to the server 
 3. take out all the headers and params and sort them
 4. connect the sorted params to a string use `x=y&` to one string
 5. sign the connected string and append the param `&sign={sign_result}` to your url parameter
