@@ -28,7 +28,7 @@ CREATE TABLE `app` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`app_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
- */
+*/
 
 // default provided sql
 type SqlSecretKeeper struct {

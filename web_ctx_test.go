@@ -11,7 +11,7 @@ import (
 func TestCheckValid(t *testing.T) {
 	SignHeader(false)
 	time := time.Now().UnixNano() / 1e6
-	req, err := http.NewRequest(http.MethodGet,
+	req, _ := http.NewRequest(http.MethodGet,
 		fmt.Sprintf("http://localhost:8080?time=%d&app_key=thekey&id=123", time),
 		nil)
 	pairs := getPairs(req)

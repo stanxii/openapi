@@ -59,4 +59,3 @@ func TestSqlSecretKeeper_GeneratePair(t *testing.T) {
 	r = sqlKeeper.GeneratePair()
 	assert.NotNil(t, r)
 }
-

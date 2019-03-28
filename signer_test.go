@@ -14,7 +14,6 @@ const (
 	signResult = "863fc99a95f752c83ca63e716fa9e83cfa35fa06a158802c60ac30a5bb734f9c"
 )
 
-
 func TestSign(t *testing.T) {
 	result := Sign(signData, signKey)
 	assert.Equal(t, result, signResult)

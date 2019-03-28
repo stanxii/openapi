@@ -1,4 +1,7 @@
 # a tool to provide third-party apis
+[![Build Status](https://travis-ci.org/winjeg/openapi.svg?branch=master)](https://travis-ci.org/winjeg/openapi)
+[![Go Report Card](https://goreportcard.com/badge/github.com/winjeg/openapi)](https://goreportcard.com/report/github.com/winjeg/openapi)
+[![GolangCI](https://golangci.com/badges/github.com/winjeg/go-commons.svg)](https://golangci.com/r/github.com/winjeg/openapi)
 
 a common tool for providing api to third-party users
 
