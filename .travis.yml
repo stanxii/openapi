@@ -14,8 +14,8 @@ before_install:
   - GO111MODULE=on go mod vendor
   - mysql -e "CREATE DATABASE IF NOT EXISTS cloudb;"
   - sudo mysql -e "grant all privileges on cloudb.* to testuser@'%' identified by '123456';FLUSH PRIVILEGES;"
-  - mysql -e 'use test; CREATE TABLE `app` (`app_key` varchar(32) NOT NULL, `app_secret` varchar(128) NOT NULL, `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`app_key`) )ENGINE=InnoDB DEFAULT CHARSET=utf8;'
-  - mysql -e "use test; INSERT INTO `cloudb`.`app` (`app_key`, `app_secret`, `created`, `updated`) VALUES ('thekey', 'ads,masd,masdmas,', '2019-03-28 11:45:14', '2019-03-28 11:45:14');"
+  - mysql -e 'use cloudb; CREATE TABLE `app` (`app_key` varchar(32) NOT NULL, `app_secret` varchar(128) NOT NULL, `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`app_key`) )ENGINE=InnoDB DEFAULT CHARSET=utf8;'
+  - mysql -e "use cloudb; INSERT INTO `cloudb`.`app` (`app_key`, `app_secret`, `created`, `updated`) VALUES ('thekey', 'ads,masd,masdmas,', '2019-03-28 11:45:14', '2019-03-28 11:45:14');"
 
 
 script:
